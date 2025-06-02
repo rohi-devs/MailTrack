@@ -67,8 +67,22 @@ func Register(c echo.Context) error {
 	if err := db.Create(&user).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "failed to register user"})
 	}
+	claims := &Auth{
+		Email: user.Email,
+		Role:  "user",
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
+		},
+	}
+	tokenUnsigned := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	jwtSecret := os.Getenv("JWT_SECRET")
+	token, err := tokenUnsigned.SignedString([]byte(jwtSecret))
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "failed to create token"})
+	}
 	return c.JSON(http.StatusCreated, echo.Map{
 		"message": "user registered successfully",
 		"user_id": user.ID,
+		"token":   token,
 	})
 }
