@@ -23,16 +23,9 @@ func main() {
 	if err != nil {
 		slog.Error(fmt.Sprintf("Error migrating database: %s", err))
 	}
-
-	//config := echojwt.Config{
-	//	NewClaimsFunc: func(c echo.Context) jwt.Claims {
-	//		return new(Authentication.Auth)
-	//	},
-	//	SigningKey: []byte(os.Getenv("JWT_SECRET")),
-	//}
-
 	authRouter := echoRouter.Group("/auth")
-	//authRouter.Use(echojwt.WithConfig(config))
+	statRouter := echoRouter.Group("/stats")
 	Controller.AuthController(authRouter, db)
+	Controller.StatsController(statRouter, db)
 	echoRouter.Logger.Fatal(echoRouter.Start(":8080"))
 }

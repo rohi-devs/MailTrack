@@ -2,6 +2,7 @@ package Authentication
 
 import (
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
@@ -13,8 +14,9 @@ import (
 )
 
 type Auth struct {
-	Email string `json:"email"`
-	Role  string `json:"role"`
+	ID    uuid.UUID `json:"id"`
+	Email string    `json:"email"`
+	Role  string    `json:"role"`
 	jwt.RegisteredClaims
 }
 
@@ -35,6 +37,7 @@ func Login(c echo.Context) error {
 		return c.JSON(400, map[string]string{"message": "Username and password are required"})
 	}
 	claims := &Auth{
+		ID:    user.ID,
 		Email: user.Email,
 		Role:  "user",
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -68,6 +71,7 @@ func Register(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "failed to register user"})
 	}
 	claims := &Auth{
+		ID:    user.ID,
 		Email: user.Email,
 		Role:  "user",
 		RegisteredClaims: jwt.RegisteredClaims{
