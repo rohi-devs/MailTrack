@@ -15,7 +15,7 @@ func main() {
 	echoRouter := echo.New()
 	echoRouter.Use(middleware.Logger())
 	echoRouter.Use(middleware.Recover())
-	db, err := DBInit()
+	db, err := Utlis.DBInit()
 	if err != nil {
 		slog.Error(fmt.Sprintf("Error connecting to database: %s", err))
 	}

@@ -1,4 +1,4 @@
-package main
+package Utlis
 
 import (
 	"fmt"
@@ -24,6 +24,7 @@ func DBInit() (*gorm.DB, error) {
 	rr = d.Ping()
 	if rr != nil {
 		slog.Info("Cannot connect to DB:", rr)
+		os.Exit(99)
 	}
 	fmt.Println("✅ Successfully connected to PostgreSQL")
 	return db, err
