@@ -25,7 +25,9 @@ func main() {
 	}
 	authRouter := echoRouter.Group("/auth")
 	statRouter := echoRouter.Group("/stats")
+	trackRouter := echoRouter.Group("/track")
 	Controller.AuthController(authRouter, db)
 	Controller.StatsController(statRouter, db)
+	Controller.TrackController(trackRouter, db)
 	echoRouter.Logger.Fatal(echoRouter.Start(":8080"))
 }

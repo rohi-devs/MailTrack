@@ -10,5 +10,8 @@ import (
 func StatsController(e *echo.Group, db *gorm.DB) {
 	e.Use(Middleware.DBMiddleware(db))
 	e.Use(Middleware.JWTMiddleware())
-	e.GET("", Stats.GetStats)
+	e.GET("", Stats.GetCount)
+	e.GET("/count", Stats.GetCount)
+	e.GET("/count/:id", Stats.GetCountById)
+	e.GET("/getCampaigns", Stats.GetCampaign)
 }
