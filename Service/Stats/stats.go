@@ -70,7 +70,11 @@ func GetCampaign(c echo.Context) error {
 	uri := c.Request().RequestURI
 	method := c.Request().Method
 	var campaign []string
-	if err := db.Model(&Model.TrackEvent{}).Distinct("camp_id").Where("user_id = ?", claims.ID).Pluck("camp_id", &campaign).Error; err != nil {
+	if err := db.Model(&Model.TrackEvent{}).
+		Distinct("camp_id").
+		Where("user_id = ?", claims.ID).
+		Pluck("camp_id", &campaign).
+		Error; err != nil {
 		slog.Error("Failed to get campaigns", "error", err)
 		return c.JSON(http.StatusInternalServerError, echo.Map{
 			"message": "Internal server error",

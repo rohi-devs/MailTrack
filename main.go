@@ -26,6 +26,7 @@ func main() {
 	authRouter := echoRouter.Group("/auth")
 	statRouter := echoRouter.Group("/stats")
 	trackRouter := echoRouter.Group("/track")
+	fmt.Println("Starting server on port 8080")
 	Controller.AuthController(authRouter, db)
 	Controller.StatsController(statRouter, db)
 	Controller.TrackController(trackRouter, db)
